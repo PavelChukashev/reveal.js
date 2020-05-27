@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="dist/theme/night.css" id="theme">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
@@ -16,8 +16,317 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Regular Expression</h1>
+					<br>
+					<h6>RS School 2020Q1 Pavel Chukashev</h6>
+				</section>
+				<section>
+					A regular expression (shortened as regex or regexp) is a sequence of characters that define a search pattern.
+				</section>
+				<section>
+					<div>The concept arose in the 1950s when the American mathematician Stephen Cole Kleene formalized the description of a regular language.</div>
+					<img src="/assets/Kleene.jpg" alt="Photo">
+				</section>
+				<section>
+					<div>Regular expressions are used in search engines, search and replace dialogs of word processors and text editors.</div>
+					<br>
+					<div>Using this syntax, we can:</div>
+					<ul>
+						<li>search for text in a string</li>
+						<li>replace substrings in a string</li>
+						<li>extract information from a string</li>
+					</ul>
+				</section>
+				<section>
+					<div>In JavaScript, we can create a Regular Expression in <u>two</u> ways:</div>
+					<br>
+					<div>1.	RegExp constructor</div>
+					<pre><code data-trim data-noescape>
+						new RegExp(pattern[, flags])
+
+						var regexConst = new RegExp('abc');
+					</code></pre>
+					<div>2. Literal method</div>
+					<pre><code data-trim data-noescape>
+						/pattern/flags
+
+						var regexLiteral = /abc/;
+					</code></pre>
+					<div>Note: In the case where we need to create regular expressions dynamically, we’ll need to use the <u>constructor</u> method.</div>
+				</section>
+				<section>
+					<section>
+						<h4>Methods</h4>
+						<br>
+						<div>
+							In JavaScript, regular expressions are often used with the two string methods:
+							<br>
+							<ul>
+								<li>
+									<u>search()</u><br>
+									Searches a string for a specified value and returns the position of the match
+								</li>
+								<li>
+									<u>replace()</u><br>
+									Replaces a specified value with another value in a string
+								</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h4>Using the RegExp Object</h4>
+						<br>
+						<div>In JavaScript, the RegExp object is a regular expression object with predefined properties and methods.</div>
+						<ul>
+							<li>
+								<u>test()</u><br>
+								It searches a string for a pattern, and returns <u>true</u> or <u>false</u>, depending on the result.
+							</li>
+							<li>
+								<u>exec()</u><br>
+								It searches a string for a specified pattern, and returns the found text as an object.
+								<br>
+								If no match is found, it returns an empty (null) object.
+							</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h4>Flags</h4>
+					<ul>
+						<li><b>g</b> : global search</li>
+						<li><b>i</b> : makes the regex case-insensitive</li>
+						<li><b>m</b> : enables multi-line mode</li>
+						<li><b>u</b> : enables support for unicode</li>
+						<li><b>s</b> : short for single line, it causes the <u>.</u> to also match new line characters (added in ES2018, not yet supported in Firefox).</li>
+					</ul>
+					<div>For example:
+						<pre><code data-trim data-noescape>
+							/hello/ig.test('HEllo')
+							// returns true
+						</code></pre>
+					</div>
+				</section>
+				<section>
+					<section>
+						<h3>Characters and ranges</h3>
+					</section>
+					<section>
+						<div><u>Character set [abc]</u></div>
+						<br>
+						<div>Use character sets to match different characters in a single position. 
+							They match any single character in the string with the characters inside the brackets:
+						</div>
+						<pre><code data-trim data-noescape>
+							var regex = /[hc]ello/;
+
+							console.log(regex.test('hello'));
+							// returns true
+							console.log(regex.test('cello'));
+							// returns true
+							console.log(regex.test('jello'));
+							// returns false
+						</code></pre>
+					</section>
+					<section>
+						<div><u>Negated character set [^abc]</u></div>
+						<br>
+						<div>It matches anything that is <u>not</u> enclosed in the brackets:</div>
+						<pre><code data-trim data-noescape>
+							var regex = /[^hc]ello/;
+
+							console.log(regex.test('hello'));
+							// returns false
+							console.log(regex.test('cello'));
+							// returns false
+							console.log(regex.test('jello'));
+							// returns true
+						</code></pre>
+					</section>
+					<section>
+						<div><u>Ranges [a-z]</u></div>
+						<br>
+						<div>If we want to match <b>all</b> of the letters of an alphabet in a single position, we can use ranges. 							
+							We can also use digits like [0–9] or capital letters like [A-Z]</div>
+						<pre><code data-trim data-noescape>
+							var regex = /[a-z]ello/;
+
+							console.log(regex.test('hello'));
+							// returns true
+							console.log(regex.test('cello'));
+							// returns true
+							console.log(regex.test('jello'));
+							// returns true
+						</code></pre>
+						<div>Ranges can be also combined by using dash "-"</div>
+						<pre><code data-trim data-noescape>/[A-Z-0-9]/</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Meta-characters</h4>
+						<br>
+						<ul>							
+							<li><b>\d</b> : matches any digit</li>
+							<li><b>\D</b> : matches any character that is not a digit</li>
+							<li><b>\w</b> : matches any alphanumeric character (plus underscore)</li>
+							<li><b>\W</b> : matches any non-alphanumeric character</li>
+							<li><b>\s</b> : matches any whitespace character: spaces, tabs, newlines and Unicode spaces</li>
+							<li><b>\S</b> : matches any character that is not a whitespace</li>							
+						</ul>
+					</section>
+					<section>
+						<ul>							
+							<li><b>\0</b> : matches null</li>
+							<li><b>\n</b> : matches a newline character</li>
+							<li><b>\t</b> : matches a tab character</li>
+							<li><b>\uXXXX</b> : matches a unicode character with code XXXX (remember about <b>u</b> flag!)</li>
+							<li><b>.</b> : matches any character that is not a newline character</li>
+							<li><b>[^]</b> : matches any character, including newline characters. It’s very useful on multi-line strings</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Position</h4>
+						<ul>
+							<li><b>\b</b> : matches at the beginning or at the end of a word</li>
+							<li>
+								<b>^</b> : matches the begining of the string, the regex that follows should be at the start of the test string
+								<pre><code data-trim data-noescape>
+									var regex = /^h/;
+									console.log(regex.test('hi'));
+									// true									
+								</code></pre>
+							</li>
+							<li>
+								<b>$</b> : matches the end of the string
+								<pre><code data-noescape data-trim>
+									var regex = /.com$/;
+									console.log(regex.test('test@email.com'));
+									// true
+									console.log(regex.test('test@email'));
+									// false
+								</code></pre>
+							</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h4>Quantifiers</h4>
+						<br>
+						<div>Quantifiers are symbols that have unique meaning in regex.</div>
+						<ul>
+							<li>
+								<b>+</b> : matches the preceding expression 1 or more times
+								<pre><code data-trim data-noescape>
+									var regex = /\d+/;
+
+									console.log(regex.test('1'));
+									// true
+									console.log(regex.test('1122'));
+									// true
+								</code></pre>
+							</li>							
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>
+								<b>*</b> : matches the preceding expression 0 or more times
+								<pre><code data-trim data-noescape>
+									var regex = /hi*d/;
+
+									console.log(regex.test('hd'));
+									// true
+									console.log(regex.test('hid'));
+									// true
+								</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>
+								<b>?</b> : matches the preceding expression 0 or 1 time
+								<pre><code data-trim data-noescape>
+									var regex = /hii?d/;
+
+									console.log(regex.test('hid'));
+									// true
+									console.log(regex.test('hiid'));
+									// true
+									console.log(regex.test('hiiid'));
+									// false
+								</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>
+								<b>{N}</b> : matches exactly N occurrences of the preceding regex
+								<pre><code data-trim data-noescape>
+									var regex = /hi{2}d/;
+
+									console.log(regex.test('hiid'));
+									// true
+									console.log(regex.test('hid'));
+									// false
+								</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>
+								<b>{N, M}</b> : matches at least N occurrences and at most M occurrences (when M > N)
+								<pre><code data-trim data-noescape>
+									var regex = /hi{1,2}d/;
+
+									console.log(regex.test('hid'));
+									// true
+									console.log(regex.test('hiid'));
+									// true
+									console.log(regex.test('hiiid'));
+									// false
+								</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>
+								<b>X|Y</b> : alternation matches either X or Y
+								<pre><code data-trim data-noescape>
+									var regex = /(red|yellow) bike/;
+
+									console.log(regex.test('red bike'));
+									// true
+									console.log(regex.test('yellow bike'));
+									// true
+									console.log(regex.test('brown bike'));
+									// false
+								</code></pre>
+								<div>To use any special character as a part of the expression, then you’ll need to escape them with a backslash "\"</div>
+								<pre><code data-trim data-noescape>
+									var regex = /a+b/; 
+
+									// this doesn't work
+									var regex = /a\+b/; 
+									// this works!
+									console.log(regex.test('a+b')); 
+									// true
+								</code></pre>
+							</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h4>Thanks for watching!</h4>
+				</section>
 			</div>
 		</div>
 
